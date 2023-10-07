@@ -1,0 +1,45 @@
+function generateAndSolveQuadraticEquation() {
+  // Generate random integers for a, b, and c
+  const a = getRandomInt(1, 10);  // Change the range as needed
+  const b = getRandomInt(1, 10);  // Change the range as needed
+  const c = getRandomInt(1, 100); // Change the range as needed
+
+  // Create the quadratic equation string
+  const equation = `${a}x^2 + ${b}x + ${c} = 0`;
+
+  // Calculate the correct answers (using the quadratic formula)
+  const discriminant = b * b - 4 * a * c;
+  const sqrtDiscriminant = Math.sqrt(Math.abs(discriminant));
+
+  const x1 = (-b + sqrtDiscriminant) / (2 * a);
+  const x2 = (-b - sqrtDiscriminant) / (2 * a);
+
+  // Prompt the user to solve the equation
+  const userAnswer = prompt(`Solve the equation: ${equation} for x (Enter a number)`);
+
+  if (userAnswer === null) {
+    return 'Cancelled';
+  }
+
+  const parsedUserAnswer = parseFloat(userAnswer);
+
+  if (isNaN(parsedUserAnswer)) {
+    return 'Invalid input. Please enter a number.';
+  }
+
+  // Check if the user's answer is correct
+  if (parsedUserAnswer === x1 || parsedUserAnswer === x2) {
+    return 'Correct';
+  } else {
+    return 'Incorrect';
+  }
+}
+
+// Helper function to generate a random integer in a specified range (inclusive)
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Example usage:
+const result = generateAndSolveQuadraticEquation();
+alert(result);
