@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Teacher Home</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <script src="../static/js/scripts.js"></script>
+    </head>
+    <body>
+        This is a teacher home page.
+        {{usernm}}
+        <!-- Dropdown form for creating a class using the 4 available options -->
+        <form action = "/create_course" method="post">
+            <select id="gradeSelector" name="class_type">
+                <option value="grade1">Grade 1</option>
+                <option value="grade2">Grade 2</option>
+                <option value="algebra">Intro to Algebra</option>
+                <option value="quadratic">Quadratic Equations</option>
+            </select>
+            <input type="submit" value="Create Class">
+        </form>
+        <br>
+        {% for course in range(lenn) %}
+            <h2 style="font-size: 24px">{{courseload[0][course]}}</h2>
+            <div class="numberDisplay" style="font-size: 24px">Course ID: {{courseload[0][course][1]}}</div>
+            <br>
+            Students:
+            <br>
+            {% for student in courseload[1][course] %}
+                <div class="numberDisplay" style="font-size: 20px">{{student}}</div>
+                <br>
+            {% endfor %}
+        {% endfor %}
+        <br>
+        Teacher id: {{id}}
+        </body>
+</html>
