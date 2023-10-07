@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Math Quiz</h1>
+    <div id="quiz">
+        <p id="question"></p>
+        <input type="text" id="answer">
+        <button id="submit">Submit</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            { question: '2 + 2', answer: 4 },
+            { question: '5 + 3', answer: 8 },
+            { question: '10 + 7', answer: 17 },
+            { question: '6 + 4', answer: 10 },
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questionElement = document.getElementById('question');
+        const answerElement = document.getElementById('answer');
+        const submitButton = document.getElementById('submit');
+        const resultElement = document.getElementById('result');
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                questionElement.textContent = questions[currentQuestion].question;
+                answerElement.value = '';
+                resultElement.textContent = '';
+            } else {
+                endQuiz();
+            }
+        }
+
+        function endQuiz() {
+            questionElement.textContent = 'Quiz completed! Your score: ' + score + ' out of ' + questions.length;
+            answerElement.style.display = 'none';
+            submitButton.style.display = 'none';
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(answerElement.value);
+            if (userAnswer === questions[currentQuestion].answer) {
+                resultElement.textContent = 'Correct!';
+                score++;
+            } else {
+                resultElement.textContent = 'Incorrect. The correct answer is ' + questions[currentQuestion].answer;
+            }
+            currentQuestion++;
+            showQuestion();
+        }
+
+        submitButton.addEventListener('click', checkAnswer);
+        showQuestion();
+    </script>
+</body>
+</html>
