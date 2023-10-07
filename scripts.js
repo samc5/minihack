@@ -177,4 +177,20 @@ function checkMCQAnswer(selected, correct) {
     displayQuestion();
 }
 
+function sendDataToPython2(numberToSend, stringToSend) {
+    fetch('/receive-data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ number: numberToSend, text: stringToSend })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message); // This will log the response from Python
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
