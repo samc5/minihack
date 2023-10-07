@@ -11,7 +11,7 @@ app.secret_key = os.urandom(32)
 @app.route("/")       
 def hello_world():
     """Return base page. Mostly so it doesn't crash"""
-    return render_template('math.html')
+    return redirect('/register')
 
 name_conversion = {"grade1": "Grade 1", "grade2": "Grade 2", "algebra": "Intro to Algebra", "quadratic": "Quadratic Equations"}
 
