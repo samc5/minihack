@@ -14,6 +14,28 @@ const questions = {
     quadratic: generateQuadraticProblems()
 };
 
+const resources = {
+    grade1: [
+        { type: 'article', link: 'http://example.com/article-grade1-1', title: 'Understanding Basics of Addition' },
+        { type: 'video', link: 'https://youtube.com/xyz-grade1', title: 'Grade 1 Math Basics' }
+    ],
+    grade2: [
+        { type: 'article', link: 'http://example.com/article-grade2-1', title: 'Advanced Grade 2 Math' },
+        { type: 'video', link: 'https://youtube.com/xyz-grade2', title: 'Grade 2 Math Mastery' }
+    ],
+    algebra: [
+        { type: 'article', link: 'http://example.com/article-algebra', title: 'Introduction to Algebra' },
+        { type: 'video', link: 'https://youtube.com/xyz-algebra', title: 'Algebra Explained' }
+    ],
+    quadratic: [
+        { type: 'article', link: 'http://example.com/article-quadratic', title: 'Understanding Quadratic Equations' },
+        { type: 'video', link: 'https://www.youtube.com/watch?v=qeByhTF8WEw&pp=ygUhaG93IHRvIHNvbHZlIHF1YWRyYXRpYyBlcXVhdGlvbnMg', title: 'Quadratic Equation Basics' }
+    ]
+};
+
+
+
+
 function generateAlgebraProblems() {
     const problems = [];
     
@@ -30,6 +52,7 @@ function generateAlgebraProblems() {
     
     return problems;
 }
+
 
 function generateQuadraticProblems() {
     const problems = [];
@@ -89,9 +112,21 @@ function displayQuestion() {
         html += `<p id="feedback"></p>`;
         questionArea.innerHTML = html;
     } else {
-        questionArea.innerHTML = `<p>Quiz finished! Your score is ${score}/${questions[currentGrade].length}.</p>`;
+        if(score !== questions[currentGrade].length) {
+            questionArea.innerHTML = `<p>Quiz finished! Your score is ${score}/${questions[currentGrade].length}. You might want to check out the following resources:</p>`;
+            resources[currentGrade].forEach(resource => {
+                if(resource.type === 'video') {
+                    questionArea.innerHTML += `<a href="${resource.link}" target="_blank"><img src="https://img.youtube.com/vi/${resource.videoId}/0.jpg" alt="${resource.title} thumbnail"><br>${resource.title}</a><br>`;
+                } else {
+                    questionArea.innerHTML += `<a href="${resource.link}" target="_blank">${resource.title}</a><br>`;
+                }
+            });
+        } else {
+            questionArea.innerHTML = `<p>Quiz finished! Your score is ${score}/${questions[currentGrade].length}.</p>`;
+        }
     }
 }
+
 
 function checkAnswer(correctAnswer) {
     let studentAnswer = document.getElementById("studentAnswer").value;
@@ -141,3 +176,21 @@ function checkMCQAnswer(selected, correct) {
     currentQuestionIndex++;
     displayQuestion();
 }
+
+function sendDataToPython2(numberToSend, stringToSend) {
+    fetch('/receive-data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ number: numberToSend, text: stringToSend })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message); // This will log the response from Python
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
